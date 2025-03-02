@@ -1,0 +1,95 @@
+.navbar-signup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    padding: 15px 60px;
+    width: 100vw;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 999999999;
+}
+
+.nav-left-signup {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo-signup {
+    width: 110px;
+    height: 70px;
+    image-resolution: 100px;
+    cursor: pointer;
+}
+
+.logo-text-signup {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+.nav-right-signup {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-left: auto;
+}
+
+.nav-tabs-signup {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    padding: 0;
+    margin-right: 50px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav-tabs-signup li {
+    position: relative;
+}
+
+.nav-tabs-signup a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-info-signup {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    margin-left: -60px;
+}
+
+
+
+.user-info-signup {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+
+.user-icon-signup {
+    height: 25px;
+    margin-top: 10px;
+}
+
+.arrow-icon-signup {
+    width: 30px;
+    height: 25px;
+    /* margin-right: 10px; */
+
+}

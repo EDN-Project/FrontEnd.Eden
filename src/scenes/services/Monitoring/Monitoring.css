@@ -1,0 +1,225 @@
+/* General Styles */
+.Monitoring-container {
+    /* text-align: center;
+    padding: 50px;
+     font-family: 'Poppins', sans-serif;
+; */
+  }
+  
+  .Monitoring-container2 {
+    /* text-align: center; */
+    /* padding: 50px; */
+     font-family: 'Poppins', sans-serif;
+;
+  }
+  
+  .Monitoring-header-text {
+    position: absolute;
+    left: 150px; /* يحرك النص 150px لليمين */
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-align: left;
+     font-family: 'Poppins', sans-serif;
+
+    /* max-width: 400px; لضبط عرض النص ومنع تمدده */
+}
+
+.Monitoring-header-text p {
+    font-size: 1.5rem;
+    margin: 0px 50px;
+    line-height: 0.8; 
+    color: white;
+     font-family: 'Poppins', sans-serif;
+
+   
+}
+
+
+  /* Header Section */
+  .Monitoring-header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+     font-family: 'Poppins', sans-serif;
+
+    
+  }
+  
+  .nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+     font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #000;
+  }
+
+
+
+  .Monitoring-header-bg {
+    position: relative;
+}
+
+
+
+  /* Button */
+  .get-started-btn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+     font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease;
+
+  }
+  
+  .get-started-btn:hover {
+    background: #555;
+  }
+  
+  /* Footer */
+  .Monitoring-footer {
+    margin-top: 40px;
+    font-size: 1rem;
+    color: #666;
+  }
+  
+
+
+.Monitoring-header {
+    width: 100%;
+    height: 300px; /* ارتفاع مناسب */
+    position: relative;
+  }
+  
+  .Monitoring-header-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    color: white; /* لون النص */
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+  
+  .Monitoring-header h1 {
+    margin: 0;
+    font-size: 3rem;
+  }
+  
+  .Monitoring-header p {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
+
+
+
+ 
+/*monitoring-section*/
+
+
+.monitoring-section {
+
+  text-align: left;
+  padding: 50px;
+
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 50px;
+}
+
+
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    background: transparent;
+  }
+
+  
+.card {
+  background: #D9D9D9;
+  padding: 40px;
+  border-radius: 40px;
+  position: relative;
+  text-align: left;
+  width: 95%;
+  height: 550px;
+  transition: background 0.3s ease-in-out;
+}
+
+.card:hover {
+  background: #87AECE;
+}
+
+.card-title {
+  font-size: 2rem;
+  font-family: 'Poppins Mixed', sans-serif;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1.5rem;
+  font-family: 'Poppins Mixed', sans-serif;
+  margin-top: 30px;
+}
+
+/* .card-image {
+  width: 455px;
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  border-radius: 0px 0px 30px 0px;
+  bottom: 0px;
+  right: 0px;
+  display: none;
+}
+
+.card:hover .card-image {
+  display: block;
+} */
+
+/*  */
+
+.arrow {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    width: 35px; /* حجم السهم */
+    height: 35px; /* حجم السهم */
+    background-image: url('../../../assets/icons/arrow.png'); /* استبدلها بمسار الصورة */
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  
+.footer-text {
+  margin-top: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}

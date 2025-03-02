@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.aboutContactUs{
+    background-color: #F5F3D8;
+}
+
+.about-section {
+    padding: 50px;
+    text-align: center;
+    background: #fff;
+    color: #000;
+}
+
+.about-section h1 {
+    font-size: 70px;
+    color:#000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-section p {
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: 20px;
+    color:#000;
+}
+
+.contact-section {
+    background: url('../../assets/images/aboutUsBackGtound.png') no-repeat center center fixed;
+    background-size: cover;
+    padding: 50px 20px;
+    color: #fff;
+    margin-bottom: -40px;
+    position: relative;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.contact-container {
+    position: relative;
+    z-index: 2;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: none;
+    
+}
+
+.contact-header {
+    text-align:start;
+    background: none;
+    align-content: center;
+}
+.contact-header h1 {
+    font-size: 70px;
+    color: #FFFBFB;
+    background: none;
+    font-family: 'Poppins', Arial, sans-serif;
+    line-height: 1.6;
+    /* margin-top: 50px; */
+    /* width: 50%; */
+    
+
+}
+
+
+.contact-form, .contact-info {
+    background: #FFFBFB;
+    padding: 20px;
+    border-radius: 20px;
+    color:#000;
+    flex: 1;
+    max-width: 35%;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    background: none;
+
+}
+
+.contact-form input, .contact-form textarea {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+
+.contact-form button {
+    margin-top: 20px;
+    padding: 10px 10px;
+    background:#000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.contact-info {
+    text-align: left;
+}
+.contact-info h2 {
+    font-size: 24px;
+    margin-bottom: 50px;
+    color:#000;
+}
+
+.contact-info p {
+    font-size: 20px;
+    margin: 10px 0;
+    color:#000;
+    font-weight: bold;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+
+.send-button {
+    align-self: center;
+    margin-left: 100px;
+}

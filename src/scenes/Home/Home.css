@@ -1,0 +1,585 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  /* background-color: #fff; */
+}
+
+.homeContainer {
+background-color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  /* background-color: #f9f9f9; */
+  text-align: center;
+  color: #333;
+}
+
+/* Navbar styles */
+
+.hero {
+  display: flex;
+  justify-content: center; 
+  /* align-items: center; */
+  /* height: 100vh;  */
+}
+
+
+
+.contentHome { 
+  /* width: 65%; */
+  position: relative;
+  z-index: 2; 
+  color: #000; 
+  background: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* توسيط المحتوى عموديًا */
+  align-items: center; /* توسيط المحتوى أفقيًا */
+  text-align: center; /* توسيط النصوص */
+}
+
+.contentHome h1 { 
+  /*  */
+  font-size: 3em;
+  margin-top: 60px;
+  color: #000;
+  background: none;
+  text-align: center;
+  align-self: center;
+
+
+}
+
+.contentHome p {
+  margin-top: 20px;
+  font-size: 1.3em;
+  margin-bottom: 50px;
+  color: #000;
+  background: none;
+  font-weight: 400;
+
+
+}
+
+
+
+/* Get Start Button */
+
+.holographic-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+}
+
+.holographic-card {
+  width: 270px;
+  height: 70px;
+  background:#000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50px;
+  transition: all 0.5s ease;
+}
+
+.holographic-card h2 {
+  color: #fff;
+  font-size: 1.4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.holographic-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, #87AECE, #AFD06E);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: rotate(-45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.holographic-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px 0 rgba(175, 208, 110, 0.6);
+  background: linear-gradient(135deg, #AFD06E, #87AECE);
+}
+.holographic-card:hover::before {
+  opacity: 1;
+  transform: rotate(-45deg) translateY(100%);
+}
+
+/* {section2 container} */
+
+.section2-images-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin-top: 50px;
+}
+
+/* الصورة اليسرى */
+.leftImage-section2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px; /* تحكم في حجم الصورة */
+  height: auto;
+  object-fit: cover;
+}
+
+/* الصورة اليمنى */
+.rightImage-section2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 500px; /* تحكم في حجم الصورة */
+  height: auto;
+  object-fit: cover;
+}
+
+
+/* services-container */
+
+.services-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  /* background-color: #60a5fa; */
+}
+
+
+.service-box {
+  text-align:left;
+  flex: 1;
+}
+
+.service-number {
+  font-size: 1.3rem;
+  color: #9ca3af;
+  display: block;
+  margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.services-container .service-box h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #87AECE, #AFD06E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+
+
+/* New Services Section */
+/* New Services Section */
+.new-services-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1300px;
+  margin: 40px auto;
+  color: #000 !important; /* تأكد من تطبيق اللون مع !important */
+
+}
+
+/* Full-width card (first one) */
+.full-width {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Align text content at the top */
+  padding: 20px;
+  border-radius: 30px; /* Increased border-radius */
+  position: relative;
+  overflow: hidden;
+  color: #000 !important; /* تأكد من تطبيق اللون مع !important */
+
+}
+
+/* Half-width container (for last two cards) */
+.half-container {
+  height: 400px;
+  display: flex;
+  gap: 20px;
+  color: #000 !important; /* تأكد من تطبيق اللون مع !important */
+
+}
+
+/* Half-width cards (last two) */
+.half-width {
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Align text content at the top */
+  padding: 20px;
+  border-radius: 30px; /* Increased border-radius */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Common styling for all service cards */
+.service-card {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Align text content at the top */
+  padding: 20px;
+  border-radius: 40px; /* Increased border-radius */
+  position: relative;
+  overflow: hidden;
+  color: #000 !important; /* إضافة هذه السطر */
+
+}
+
+
+/* Styling for the text content inside cards */
+.text-content {
+  width: 43%;
+  /* background: #60a5fa; */
+  /* flex: 1; */
+  padding: 20px;
+  text-align: left;
+  color: #000 !important; /* تأكد من تطبيق اللون مع !important */
+}
+
+.text-content h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white !important;
+  margin-bottom: 10px;
+  -webkit-text-fill-color: white;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white !important;
+  margin-bottom: 10px;
+  -webkit-text-fill-color: white;
+}
+
+.learn-more-btn {
+  background: #ddd7d7;
+  color: black;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  position: absolute;
+  bottom: 20px;
+  font-size: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* لتحسين الانتقال */
+}
+
+.learn-more-btn:hover {
+  background: white; /* تغيير الخلفية إلى الأبيض */
+  color: #ddd7d7; /* تغيير النص إلى نفس اللون الذي كان عليه في الحالة العادية */
+}
+
+
+/* Placeholder for images */
+
+/* Background Colors */
+.green-bg {
+  background-color: #AFD06E;
+}
+
+.blue-bg {
+  background-color: #87AECE;
+}
+
+.brown-bg {
+  background-color: #848066;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .half-container {
+    flex-direction: column;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+}
+
+/* section5 */
+
+.section5-images-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1300px;
+  margin: 40px auto;
+
+}
+
+
+.full-width-section5 {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  /* justify-content: flex-start; */
+  /* align-items: flex-start;  */
+  padding: 20px;
+  border-radius: 30px; /* Increased border-radius */
+  position: relative;
+  overflow: hidden;
+  color: #000 !important; /* تأكد من تطبيق اللون مع !important */
+
+}
+
+.image-placeholder-section5 {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+}
+
+.full-width-section5 {
+  position: relative;
+  height: 400px; /* Increase height if needed */
+}
+
+.text-content-section5 {
+  width: 45%;
+  position: relative;
+  z-index: 1;
+}
+
+.section5-bg {
+  background-color:#F5F3D8;
+}
+
+.Subscribe-btn {
+  background: #FFFF;
+  color: black;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 30px;
+  /* border-width: 2px;
+  border-color: #000000; */
+  cursor: pointer;
+  font-weight: bold;
+  position: absolute;
+  font-size: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.Subscribe:hover {
+  background: white;
+  color: #ddd7d7; 
+}
+
+
+.service-card-section5 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Align text content at the top */
+  padding: 20px;
+  border-radius: 40px; /* Increased border-radius */
+  position: relative;
+  overflow: hidden;
+  color: #000 !important; /* إضافة هذه السطر */
+
+}
+
+
+/* Styling for the text content inside cards */
+.text-content-section5 {
+  width: 43%;
+  padding: 20px;
+  text-align: left;
+  -webkit-text-fill-color: rgb(0, 0, 0);
+
+}
+
+.text-content-section5 h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white !important;
+  margin-bottom: 10px;
+  -webkit-text-fill-color: rgb(19, 19, 19);
+}
+
+.service-card-section5 p {
+  font-size: 1rem;
+ ;
+}
+
+
+ /* ممم */
+
+  /* الحاوية الرئيسية */
+  .container-cse3 {
+    /* display: flex;
+    align-items: center; */
+    /* justify-content: center; */
+    /* background: #93c5fd; */
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1300px;
+    margin: 40px auto;
+
+  }
+  
+  /* المحتوى الرئيسي */
+  .content-cse3 {
+    display: flex;
+    gap: 250px;
+    align-items: center;
+  }
+  
+  /* الصندوق الكبير */
+  .large-box-cse3 {
+    width: 500px;
+    height: 600px;
+    border-radius: 60px;
+    transition: all 0.3s ease;
+    padding: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* الصناديق الصغيرة */
+  .small-boxes-cse3 {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .small-box-cse3 {
+    width: 450px;
+    /* height: 100px; */
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #4a4a4a;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* الألوان */
+  .default-bg {
+    background-color: #d1d5db; /* bg-gray-300 */
+  }
+  
+  .blue-bg {
+    background-color: #87AECE; /* bg-blue-300 */
+  }
+  
+  .yellow-bg {
+    background-color: #F5F3D8; /* bg-yellow-100 */
+  }
+  
+  .gray-bg {
+    background-color: #8F8E7E; /* bg-gray-400 */
+  }
+  
+
+
+
+
+/* Do you want a more suitable solution for you? */
+
+.containercont {
+  background-color:#726d6d;
+  border-radius: 30px;
+  padding: 20px 30px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 40px;
+  /* margin-left: 335px; */
+  text-align: center;
+}
+
+
+
+.containercont h2 {
+  font-size: 1.5rem;
+  color: #FFF;
+  text-align: center;
+  background: none;
+
+}
+
+/*  */
+
+
+
+
+.containercont p {
+  font-size: 18px;
+  color: #FFF;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+  background: none;
+  
+}
+  .containercont a {
+    text-decoration: none;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  
+  }
+
+  .containercont a:hover {
+    /* background-color: #60a5fa; */
+  }
+
+
+
+ 

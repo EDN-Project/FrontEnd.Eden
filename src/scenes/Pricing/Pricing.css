@@ -1,0 +1,320 @@
+/* General Styles */
+.pricing-container {
+    /* text-align: center;
+    padding: 50px;
+     font-family: 'Poppins', sans-serif;
+; */
+  }
+  
+  .pricing-container2 {
+    /* text-align: center; */
+    /* padding: 50px; */
+     font-family: 'Poppins', sans-serif;
+;
+  }
+  
+  .pricing-header-text {
+    position: absolute;
+    left: 150px; /* يحرك النص 150px لليمين */
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-align: left;
+     font-family: 'Poppins', sans-serif;
+
+    /* max-width: 400px; لضبط عرض النص ومنع تمدده */
+}
+
+.pricing-header-text p {
+    font-size: 1.5rem;
+    margin: 0px 50px;
+    line-height: 0.8; 
+    color: white;
+     font-family: 'Poppins', sans-serif;
+
+   
+}
+
+
+  /* Header Section */
+  .pricing-header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+     font-family: 'Poppins', sans-serif;
+
+    
+  }
+  
+  .nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+     font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #000;
+  }
+
+  .nav-center h2 {
+    font-size: 2rem;
+    color: #000;
+     font-family: 'Poppins', sans-serif;
+     font-weight: bold;
+  }
+
+
+  .pricing-header-bg {
+    position: relative;
+}
+
+
+.pricing-intro {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  .pricing-plans {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* ✅ يترك كل كارت يأخذ طوله الطبيعي */
+    gap: 50px;
+    margin-top: 30px;
+}
+
+
+
+.pricing-card {
+    background: #D9D9D9;
+    border-radius: 40px;
+    padding: 30px;
+    min-width: 400px;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start; /* ✅ يجعل كل كارت يأخذ طوله حسب المحتوى */
+}
+
+  .pricing-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .pricing-card h2 {
+    color: #222;
+    text-align: left;
+    font-size: 1.4rem;
+    /* color: #ccc; */
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+
+  }
+  
+  .pricing-card h3 {
+    color: #000;
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+     font-family: 'Poppins', sans-serif;
+    margin-top: -10px;
+     font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+
+
+  }
+
+  .pricing-card h4 {
+    color: #666;
+    text-align: left;
+     font-family: 'Poppins', sans-serif;
+    margin-top: -10px;
+
+
+  }
+
+  
+
+  .pricing-card ul {
+    list-style: none; /* إزالة النقاط الافتراضية من القائمة */
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+     font-family: 'Poppins', sans-serif;
+
+  }
+  
+  .pricing-card li {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 100%; 
+     font-family: 'Poppins', sans-serif;
+
+  }
+  
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0; 
+  }
+  
+  .pricing-card ul li {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #444;
+  }
+  
+  /* Button */
+  .get-started-btn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+     font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease;
+
+  }
+  
+  .get-started-btn:hover {
+    background: #555;
+  }
+  
+  /* Footer */
+  .pricing-footer {
+    margin-top: 70px;
+    /* font-size: 1rem;
+    color: #666; */
+  }
+
+  .pricing-footer p {
+    font-size: 1.5rem;
+    color: #000;
+    margin-top: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+  }
+    .pricing-footer a {
+    color: #ccc;
+    font-family: 'Poppins', sans-serif;
+
+  }
+  
+
+
+.pricing-header {
+    width: 100%;
+    height: 300px; /* ارتفاع مناسب */
+    position: relative;
+  }
+  
+  .pricing-header-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    color: white; /* لون النص */
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+  
+  .pricing-header h1 {
+    margin: 0;
+    font-size: 3rem;
+  }
+  
+  .pricing-header p {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
+
+  .switch-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 200px;  /* زيادة العرض */
+    height: 60px;  /* زيادة الارتفاع */
+}
+
+/* إخفاء الـ input */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* تصميم الخلفية */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 50px; /* لضبط الزوايا */
+}
+
+/* تصميم المؤشر الدائري */
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 48px;  /* حجم مناسب للمؤشر */
+    width: 48px;
+    left: 6px;
+    bottom: 6px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* عند التفعيل، يتغير اللون */
+input:checked + .slider {
+    background-color: black;
+}
+
+/* عند التفعيل، يتحرك المؤشر */
+input:checked + .slider:before {
+    transform: translateX(140px); /* تعديل الحركة بناءً على العرض الجديد */
+}
+
+/* إدخال النص داخل الزر */
+.slider::after {
+    content: "Annually";
+    position: absolute;
+    top: 50%;
+    left: 70px;  /* تعديل موضع النص */
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    transition: 0.4s;
+}
+
+/* عند التفعيل، يتغير النص */
+input:checked + .slider::after {
+    content: "Monthly";
+    left: 35px; /* ضبط موضع النص */
+    color: white;
+}

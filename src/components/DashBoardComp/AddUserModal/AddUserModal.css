@@ -1,0 +1,205 @@
+/* CSS */
+
+/* تأكد أن الـ Modal يتيح العرض الصحيح للقوائم المنسدلة */
+.modal-overlay-addmodal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5000;
+    overflow: visible !important; /* التأكد من أن القائمة يمكن أن تظهر بشكل صحيح */
+  }
+  
+  .modal-container-addmodal {
+    background: #1e1e1e;
+    border-radius: 10px;
+    width: 60%;
+    display: flex;
+    color: white;
+    padding: 20px;
+    overflow: visible !important; 
+    /* height: ; */
+    
+  }
+  
+  
+  .MuiMenuItem-root {
+    background-color: #333;
+    color: white;
+  }
+  
+  .MuiSelect-icon {
+    color: white; /* لضمان أن أيقونة القائمة المنسدلة تكون بلون مناسب */
+  }
+  
+  .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-color: #555 !important;
+  }
+  
+  
+  .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-color: #555 !important;
+  }
+  .modal-left-addmodal {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    border-right:5px solid #717171 ;
+    padding-right: 20px;
+  }
+  
+  .input-group-addmodal {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    
+  }
+  
+  .input-label-addmodal {
+    display: flex;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    color: #8B8B8B;
+    margin-bottom: 5px;
+    font-family: 'Poppins SemiBold', sans-serif;
+    
+  }
+  
+  .profile-container-addmodal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    
+    
+  }
+  
+  .profile-image-addmodal {
+    position: relative;
+    width:180px;
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  .profile-image-addmodal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .edit-icon-addmodal {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #444;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .profile-name-addmodal {
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .profile-role-addmodal {
+    font-size: 18px;
+    color: #CEFBE2;
+    margin-top: 5px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+
+  }
+  
+  .modal-right-addmodal {
+    width: 70%;
+    padding-left: 20px;
+  }
+  
+  .close-button-addmodal {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .modal-form-addmodal {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .form-row-addmodal {
+    display: flex;
+    gap: 50px;
+    
+  }
+  
+  .form-field-addmodal {
+    flex: 1;
+    background: #333;
+    /* border-radius: 20px; */
+    border: none;
+  }
+  
+  .access-level-addmodal {
+    background: #444 !important;
+    color: #bbb;
+  }
+  
+  .change-password-addmodal {
+    background: #555;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    text-transform: none;
+  }
+  
+  .modal-footer-addmodal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 10px;
+  }
+  
+  .cancel-button-addmodal {
+    background: transparent;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-family: 'Poppins';
+  }
+  
+  .save-button-addmodal {
+    background: #28a745;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-family: 'Poppins';
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  
+
+
+  
