@@ -137,7 +137,7 @@ const Sidebar = ({isSidebar}) => {
 
              <Box paddingLeft={isCollapsed ? "0.6%" : "5%"}>
             <Item title="Dashboard" to="/" imgSrc={images.Dashboard} selected={selected} setSelected={setSelected}   />
-            <Item title="Market Analysis" to="/market" imgSrc={images.Market_Analysis} selected={selected} setSelected={setSelected} />
+            <Item title="Market Analysis" to="/Plant" imgSrc={images.Market_Analysis} selected={selected} setSelected={setSelected} />
             <Item title="Manage Users" to="/team" imgSrc={images.Manage_Users} selected={selected} setSelected={setSelected} />
             <Item title="Get Reports" to="/reports" imgSrc={images.Get_Reports} selected={selected} setSelected={setSelected} />
             <Item title="Calendar" to="/calendar" imgSrc={images.Calendar} selected={selected} setSelected={setSelected} />

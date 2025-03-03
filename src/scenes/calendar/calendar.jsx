@@ -15,10 +15,14 @@ import {
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import './calendar.css';
+import Topbar from "../global/Topbar";
+import Sidebar from "../global/Sidebar";
+import images from "../../constants/images";
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentEvents, setCurrentEvents] = useState([]);
+  const [isSidebar, setIsSidebar] = useState(true);
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
@@ -47,6 +51,12 @@ const Calendar = () => {
   };
 
   return (
+    <>
+    <div className="app" style={{ backgroundColor: "#121212" }}>
+        <Sidebar />
+        <main className={`content ${!isSidebar ? "content-collapsed" : ""}`}>
+          <div className="content" style={{ backgroundColor: "#121212" }}>
+            <Topbar />
     <div className="calendarContainer">
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
@@ -127,6 +137,11 @@ const Calendar = () => {
       </Box>
     </Box>
     </div>
+    </div>
+
+    </main>
+ </div>
+ </>
   );
 };
 

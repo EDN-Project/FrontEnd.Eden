@@ -1,6 +1,5 @@
-const API_URL = "http://127.0.0.1:5000"; // تأكدي أن هذا هو رابط الـ Backend الصحيح
+const API_URL = "http://127.0.0.1:5000";
 
-// 🟢 تسجيل مستخدم جديد
 export const registerUser = async (userData) => {
     const response = await fetch(`${API_URL}/register`, {
         method: "POST",
@@ -10,7 +9,6 @@ export const registerUser = async (userData) => {
     return response.json();
 };
 
-// 🟢 تأكيد رمز التسجيل
 export const confirmRegistration = async (email, code) => {
     const response = await fetch(`${API_URL}/confirm`, {
         method: "POST",
@@ -20,7 +18,6 @@ export const confirmRegistration = async (email, code) => {
     return response.json();
 };
 
-// 🟢 تسجيل الدخول
 export const loginUser = async (userData) => {
     const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -30,7 +27,6 @@ export const loginUser = async (userData) => {
     return response.json();
 };
 
-// 🟢 إرسال رمز إعادة تعيين كلمة المرور
 export const forgotPassword = async (email) => {
     const response = await fetch(`${API_URL}/forgot-password`, {
         method: "POST",
@@ -40,7 +36,6 @@ export const forgotPassword = async (email) => {
     return response.json();
 };
 
-// 🟢 إعادة تعيين كلمة المرور
 export const resetPassword = async (email, code, newPassword) => {
     try {
         const response = await fetch(`${API_URL}/reset-password`, {
@@ -60,7 +55,6 @@ export const resetPassword = async (email, code, newPassword) => {
 };
 
 
-// 🟢 جلب بيانات المستخدم
 export const getUserData = async () => {
     const token = localStorage.getItem("token");
     if (!token) return null;
@@ -83,6 +77,186 @@ export const getUserData = async () => {
         return data;
     } catch (error) {
         console.error("Error fetching user data:", error);
+        return null;
+    }
+};
+
+
+// Global
+
+export const getTopImporters = async (plant_time, code) => {
+    try {
+        const response = await fetch(`${API_URL}/top_importers`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ plant_time, code }),
+        });
+
+        // console.log("🔵 API Response:", response);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("🟢 Parsed Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 API Fetch Error:", error);
+        return null;
+    }
+};
+
+
+// receive_country
+
+export const sendCountry = async (country) => {
+    try {
+        const response = await fetch(`${API_URL}/receive_country`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ country }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("🟢 Country Sent Successfully:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error Sending Country:", error);
+        return null;
+    }
+};
+
+
+// recommended_month
+
+export const getRecommendedMonth = async (country) => {
+    try {
+        const response = await fetch(`${API_URL}/recommended_month`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ country }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("🟢 Recommended Month Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error fetching recommended month:", error);
+        return null;
+    }
+};
+
+
+
+// country_price
+
+export const getCountryPrice = async (code, country) => {
+    try {
+        const response = await fetch(`${API_URL}/country_price?code=${code}&country=${country}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("🟢 Country Price Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error fetching country price:", error);
+        return null;
+    }
+};
+
+// country_quantity
+
+export const getCountryQuantity = async (code, country) => {
+    try {
+        const response = await fetch(`${API_URL}/country_quantity?code=${code}&country=${country}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("🟢 Country Quantity Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error fetching country quantity:", error);
+        return null;
+    }
+};
+
+
+// country_growth_value
+
+export const getCountryGrowthValue = async (code, country) => {
+    try {
+        const response = await fetch(`${API_URL}/country_growth_value?code=${code}&country=${country}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("🟢 Country Growth Value Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error fetching country growth value:", error);
+        return null;
+    }
+};
+
+
+// country_growth_quantity
+
+export const getCountryGrowthQuantity = async (code, country) => {
+    try {
+        const response = await fetch(`${API_URL}/country_growth_quantity?code=${code}&country=${country}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("🟢 Country Growth Quantity Data:", data);
+        return data;
+    } catch (error) {
+        console.error("🔴 Error fetching country growth quantity:", error);
         return null;
     }
 };

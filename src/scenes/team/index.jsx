@@ -66,10 +66,11 @@ const DeleteModal = ({ isOpen, onClose, onDelete ,handleDelete}) => {
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [accessLevel, setAccessLevel] = useState("");
   const [isSidebar, setIsSidebar] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [data, setData] = useState(initialData); 
+  const [accessLevel, setAccessLevel] = useState("");
+
   const handleDelete = () => {
     setData((prevData) => prevData.filter((row) => !selectedRows.includes(row.id)));
     setSelectedRows([]); 

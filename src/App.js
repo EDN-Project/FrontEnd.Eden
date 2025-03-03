@@ -23,7 +23,7 @@ import Pricing from "./scenes/Pricing/Pricing";
 import Monitoring from "./scenes/services/Monitoring/Monitoring";
 import AdvacedMarketAnalysis from "./scenes/services/AdvacedMarketAnalysis/AdvacedMarketAnalysis";
 import Detectdiseases from "./scenes/services/Detectdiseases/Detectdiseases";
-// import PaymentPage from "./scenes/PaymentPage/PaymentPage";
+import Plant from "./scenes/dashboard/Plant";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -90,6 +90,8 @@ function App() {
           <Route path='/faq' element={<FAQ />} />
           <Route path='/calendar' element={<Calendar />} />
           <Route path='/geography' element={<Geography />} />
+          <Route path='/Plant' element={<Plant />} />
+
         </Routes>
         {/* </main> */}
         {/* </div> */}

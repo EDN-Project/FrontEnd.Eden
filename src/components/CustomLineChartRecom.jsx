@@ -1,15 +1,19 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
-const CustomLineChart = ({ data, unit = "k", strokeColor }) => {
-  const valueKey = data?.length > 0 ? Object.keys(data[0]).find(key => key !== "year") : "growthValue";
+const CustomLineChartRecom = ({ data, unit = "k", strokeColor }) => {
+  if (!data || data.length === 0) {
+    return <p>Loading chart...</p>; // تجنب الأخطاء عند عدم توفر البيانات
+  }
+
+  const valueKey = Object.keys(data[0]).find(key => key !== "month");
 
   return (
     <div style={{ padding: 10, borderRadius: 10 }}>
       <ResponsiveContainer width="100%" height={300} style={{ marginTop: 30 }}>
         <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
           <XAxis 
-            dataKey="year" 
+            dataKey="month"  // تم تغيير "year" إلى "month"
             tick={{ fill: "#bbb" }} 
             tickLine={false} 
             axisLine={false}
@@ -35,7 +39,7 @@ const CustomLineChart = ({ data, unit = "k", strokeColor }) => {
           />
           <Line 
             type="monotone" 
-            dataKey={valueKey} 
+            dataKey="value"  // تغيير dataKey ليعكس البيانات الجديدة
             stroke={strokeColor}
             strokeWidth={2} 
             dot={false} 
@@ -46,4 +50,4 @@ const CustomLineChart = ({ data, unit = "k", strokeColor }) => {
   );
 };
 
-export default CustomLineChart;
+export default CustomLineChartRecom;

@@ -1,8 +1,8 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
-const CustomLineChart = ({ data, unit = "k", strokeColor }) => {
-  const valueKey = data?.length > 0 ? Object.keys(data[0]).find(key => key !== "year") : "growthValue";
+const CustomLineChartQ = ({ data, unit = "k", strokeColor }) => {
+  const valueKey = data?.length > 0 ? Object.keys(data[0]).find(key => key !== "year") : "growthQuantity";
 
   return (
     <div style={{ padding: 10, borderRadius: 10 }}>
@@ -46,4 +46,4 @@ const CustomLineChart = ({ data, unit = "k", strokeColor }) => {
   );
 };
 
-export default CustomLineChart;
+export default CustomLineChartQ;
