@@ -2,10 +2,26 @@ import React , { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import images from '../../../constants/images';
-import { getUserData } from '../../../constants/api';
+import { getUserData ,logoutUser,handleGoogleCallback} from '../../../constants/api';
+import ProfileDropdown from '../../DashBoardComp/AddUserModal/ProfileDropdown/ProfileDropdown';
 const Navbar = () => {
 
    const [user, setUser] = useState(null);
+   const [UserDropdownModal, setUserDropdownModal] = useState(false);
+
+
+   useEffect(() => {
+     if (window.location.pathname === "/auth/google/callback") {
+       handleGoogleCallback().then((result) => {
+         if (result.success) {
+           alert("Login successful! Welcome, " + result.user.name);
+           window.location.href = "/dashboard"; 
+         } else {
+           alert(result.error);
+         }
+       });
+     }
+   }, []);
   
     useEffect(() => {
       const fetchUser = async () => {
@@ -36,6 +52,20 @@ const Navbar = () => {
       // console.log("Updated User State:", user);
     }, [user]); 
 
+
+    const handleLogout = async () => {
+      const result = await logoutUser();
+      if (result.success) {
+        alert(result.message);
+        window.location.href = "/login"; 
+      } else {
+        alert(result.error);
+      }
+    };
+
+
+
+
   return (
     <nav className="navbar bg-black relative z-40 px-5">
       <div className="nav-left" onClick={() => window.location.href = '/'}>
@@ -63,12 +93,18 @@ const Navbar = () => {
         </ul>
 
         
-        <div  className="user-info-singin">
-          <span className="username">{user?.company}</span>
+        <div  className="user-info-singin relative"
+           onMouseEnter={() => setUserDropdownModal(true)}
+           onMouseLeave={() => setUserDropdownModal(false)}
+        >
+         <span className="username">{user?.name?.split(" ")[0]}</span>
           <img style={{
             width:'40px',
             height:'40px'
           }} src={images.userIcon} alt="User" className="user-icon-singin" />
+        {UserDropdownModal && (
+         <ProfileDropdown logout={handleLogout} user={user} />
+        )}
         </div>
       </div>
       

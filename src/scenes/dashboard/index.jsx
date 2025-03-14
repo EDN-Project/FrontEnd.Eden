@@ -39,13 +39,13 @@ const Dashboard = () => {
   
 useEffect(() => {
   // Retrieve values from sessionStorage
-  const typecode = sessionStorage.getItem("typecode");
+  const selectedCode = sessionStorage.getItem("selectedCode");
   const Country = sessionStorage.getItem("selectedCountry");
   
-  if (typecode) setTypecode(typecode);
+  if (selectedCode) setTypecode(selectedCode);
   if (Country) setCountry(Country);
 
-  // console.log('typecode, Country---->', typecode, Country);
+  console.log('typecode, Country---->', selectedCode, Country);
 }, []);
 
 
@@ -54,28 +54,37 @@ const [Country, setCountry] = useState("");
 const [PriceslistArray, setPriceslistArray] = useState([]);
   
 
-  useEffect(() => {
-    const fetchData = async () => {
+useEffect(() => {
+  console.log("🟡 Fetching data with:", { typecode, Country });
+
+  const fetchData = async () => {
       try {
-        const data = await getCountryPrice(typecode, Country);
-        if (data) {
-          const formattedData = Object.keys(data)
-            .map(year => ({
-              year: year,  
-              price: data[year] 
-            }))
-            .sort((a, b) => a.year - b.year) 
-            .slice(-5); 
-  
-          setPriceslistArray(formattedData);
-        }
+          if (!typecode || !Country) {
+              console.error("⚠️ Missing parameters: typecode or Country");
+              return;
+          }
+
+          const data = await getCountryPrice(typecode, Country);
+          if (data) {
+              const formattedData = Object.keys(data)
+                  .map(year => ({
+                      year: year,
+                      price: data[year]
+                  }))
+                  .sort((a, b) => a.year - b.year)
+                  .slice(-5);
+
+              setPriceslistArray(formattedData);
+          }
       } catch (error) {
-        console.error("Error fetching data:", error);
+          console.error("Error fetching data:", error);
       }
-    };
-  
-    fetchData();
-  }, [typecode, Country]);
+  };
+
+  fetchData();
+}, [typecode, Country]);
+
+
   
 
 
@@ -85,22 +94,28 @@ const [PriceslistArray, setPriceslistArray] = useState([]);
   
   useEffect(() => {
     const fetchQuantityData = async () => {
+        if (!typecode || !Country) {
+            console.error("⚠️ Missing parameters: typecode or Country");
+            return;
+        }
+
+        console.log("🟡 Fetching quantity data with:", { typecode, Country });
+
         const data = await getCountryQuantity(typecode, Country);
         if (data) {
             const formattedData = Object.keys(data)
-                .slice(-5)  
+                .slice(-5)  // ✅ الاحتفاظ بآخر 5 سنوات فقط
                 .map(year => ({
                     year: year,
                     quantity: data[year]
                 }));
+
             setQuantityListArray(formattedData);
         }
     };
 
-    // console.log('QuantityListArray---->', QuantityListArray);
-
     fetchQuantityData();
-}, [typecode, Country]);
+}, [typecode, Country]); 
 
 
 
@@ -108,23 +123,27 @@ const [PriceslistArray, setPriceslistArray] = useState([]);
 const [GrowthValueListArray, setGrowthValueListArray] = useState([]);
 
 
-
-
 useEffect(() => {
   const fetchGrowthData = async () => {
+      if (!typecode || !Country) {
+          console.error("⚠️ Missing parameters: typecode or Country");
+          return;
+      }
+
+      console.log("🟡 Fetching growth data with:", { typecode, Country });
+
       const data = await getCountryGrowthValue(typecode, Country);
       if (data) {
           const formattedData = Object.keys(data)
-              .map(Number) // تحويل المفاتيح إلى أرقام
-              .sort((a, b) => a - b) // ترتيبها تصاعديًا
-              .slice(-5)  // أخذ آخر 5 سنوات
+              .map(Number) 
+              .sort((a, b) => a - b)
+              .slice(-5)  
               .map(year => ({
-                  year: year.toString(),  // تحويله لنص ليكون متوافقًا مع الرسوم البيانية
+                  year: year.toString(),  
                   growthValue: data[year]
               }));
 
           setGrowthValueListArray(formattedData);
-          // console.log('GrowthValueListArray---->', GrowthValueListArray);
       }
   };
 
@@ -132,60 +151,38 @@ useEffect(() => {
 }, [typecode, Country]);
 
 
- 
-
-  const DataDiffInPrices  = [
-    { year: "2015", price: 140 },
-    { year: "2016", price: 160 },
-    { year: "2017", price: 180 },
-    { year: "2018", price: 210 },
-    { year: "2019", price: 230 },
-    { year: "2020", price: 200 },
-    { year: "2021", price: 250 },
-    { year: "2022", price: 260 },
-    { year: "2023", price: 220 },
-    { year: "2024", price: 180 },
-  ];
 
 
 
 const [GrowthQuantityListArray, setGrowthQuantityListArray] = useState([]);
+useEffect(() => {
+  const fetchGrowthDataQuantity = async () => {
+      if (!typecode || !Country) {
+          console.error("⚠️ Missing parameters: typecode or Country");
+          return;
+      }
 
-  useEffect(() => {
-    const fetchGrowthDataQuantity = async () => {
-        const data = await getCountryGrowthQuantity(typecode, Country);
-        if (data) {
-            const formattedData = Object.keys(data)
-                .map(Number) // تحويل المفاتيح إلى أرقام
-                .sort((a, b) => a - b) // ترتيبها تصاعديًا
-                .slice(-5)  // أخذ آخر 5 سنوات
-                .map(year => ({
-                    year: year.toString(),  // تحويله لنص ليكون متوافقًا مع الرسوم البيانية
-                    growthQuantity: data[year]
-                }));
-  
-                setGrowthQuantityListArray(formattedData);
-            console.log('GrowthQuantityListArray---->', GrowthQuantityListArray);
-        }
-    };
-  
-    fetchGrowthDataQuantity();
-  }, [typecode, Country]);
-  
-  
-  const DataDiffInQuantity   = [
-    { year: "2015", K: 190 },
-    { year: "2016", K: 10 },
-    { year: "2017", K: 80 },
-    { year: "2018", K: 210 },
-    { year: "2019", K: 230 },
-    { year: "2020", K: 230 },
-    { year: "2021", K: 250 },
-    { year: "2022", K: 220 },
-    { year: "2023", K: 220 },
-    { year: "2024", K: 180 },
-  ];
-  
+      console.log("🟡 Fetching growth quantity data with:", { typecode, Country });
+
+      const data = await getCountryGrowthQuantity(typecode, Country);
+      if (data) {
+          const formattedData = Object.keys(data)
+              .map(Number) 
+              .sort((a, b) => a - b) 
+              .slice(-5) 
+              .map(year => ({
+                  year: year.toString(),  
+                  growthQuantity: data[year]
+              }));
+
+          setGrowthQuantityListArray(formattedData);
+      }
+  };
+
+  fetchGrowthDataQuantity();
+}, [typecode, Country]);
+
+
   
 
   return (
@@ -276,7 +273,7 @@ const [GrowthQuantityListArray, setGrowthQuantityListArray] = useState([]);
 
 
 
-              <Box display="flex" flexDirection="column" gap="20px" style={{ position: "absolute", right: "20px", top: "200px" }}>
+              <Box display="flex" flexDirection="column" gap="20px" style={{ position: "absolute", right: "20px", top: "180px" }}>
                
 
 <Box
@@ -306,6 +303,7 @@ const [GrowthQuantityListArray, setGrowthQuantityListArray] = useState([]);
                   backgroundColor={'#282828'}
                   padding="10px"
                   width="400px"
+                  
                 >
                   <Typography variant="h3" fontWeight="600" sx={{ marginBottom: "15px" }} color={'#CEFBE2'} textAlign="left">Common Types</Typography>
                   <Box height="150px">
@@ -326,6 +324,7 @@ const [GrowthQuantityListArray, setGrowthQuantityListArray] = useState([]);
                 gridTemplateColumns="repeat(12, 1fr)"
                 gridAutoRows="100px"
                 gap="20px"
+                // mt="0px"
               >
 
 

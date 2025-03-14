@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 5000;
+    z-index: 1;
     overflow: visible !important; /* التأكد من أن القائمة يمكن أن تظهر بشكل صحيح */
   }
   
@@ -49,14 +49,17 @@
     /* align-items: center; */
     border-right:5px solid #717171 ;
     padding-right: 20px;
+    
   }
   
   .input-group-addmodal {
+    /* background-color: #28a745; */
     border: none;
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
+    
     
   }
   
@@ -123,7 +126,7 @@
   }
   
   .modal-right-addmodal {
-    width: 70%;
+    width: 80%;
     padding-left: 20px;
   }
   
@@ -149,6 +152,10 @@
     display: flex;
     gap: 50px;
     
+  }
+
+  .modal-access-addmodal{
+   z-index: 99999999;
   }
   
   .form-field-addmodal {

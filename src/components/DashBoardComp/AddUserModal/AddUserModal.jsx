@@ -20,7 +20,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
         <div className="modal-left-addmodal">
           <Typography 
           sx={{ 
-            color: "#FFF",
+          color: "#FFF",
           fontSize: "25px",
           fontWeight: "bold",
           fontFamily:'poppins',
@@ -34,7 +34,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                 <img src={images} />
               </button> */}
             </div>
-            <Typography variant="h4" className="profile-name-addmodal">New Memeber</Typography>
+            <Typography variant="h3" fontWeight="bold" className="profile-name-addmodal">New Memeber</Typography>
             <Typography variant="body2" className="profile-role-addmodal">EDEN</Typography>
           </div>
         </div>
@@ -120,7 +120,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
               className="input-label-addmodal">Email</Typography>
               <TextField
               style={{
-                
+                //  backgroundColor: "transparent",
                 borderRadius: "10px",
                }}
                sx={{
@@ -130,7 +130,8 @@ const AddUserModal = ({ isOpen, onClose }) => {
                     color: '#D4FCE5',
                     fontFamily: 'Poppins'
                   },
-                  borderRadius: '40px',
+                  // borderRadius: '40px',
+                // backgroundColor: '#8B8B8B',
                   '& fieldset': {
                     border: 'none'
                   }
@@ -143,7 +144,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
 
           {/*  */}
 
-          <div className="form-row-addmodal">
+         <div className="form-row-addmodal">
               <div className="input-group-addmodal">
                 <Typography 
                  sx={{
@@ -226,43 +227,8 @@ const AddUserModal = ({ isOpen, onClose }) => {
 
             {/*  */}
 
-
             <div className="form-row-addmodal">
-              <div className="input-group-addmodal">
-                <Typography
-                 sx={{
-                  color: "#8B8B8B",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  fontFamily:'poppins',
-                  textAlign:'left'
-                }} 
-                className="input-label-addmodal ">Password</Typography>
-                <TextField
-                 style={{
-                  width: "300px",
-                  borderRadius: "10px",
-                 }}
-                 sx={{
-                  '& .MuiOutlinedInput-root': {
-                    '& input::placeholder': {
-                      fontSize: '16px',
-                      color: '#D4FCE5',
-                      fontFamily: 'Poppins'
-                    },
-                    borderRadius: '40px',
-                    '& fieldset': {
-                      border: 'none'
-                    }
-                  }
-                }}
-                 keyboardType='password'
-
-                 placeholder="*******" className="form-field-addmodal" >
-                 </TextField>
-              </div>
-
-              <div className="input-group-addmodal">
+                   <div className="input-group-addmodal">
                 <Typography
                 sx={{
                   color: "#8B8B8B",
@@ -276,6 +242,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
                  
                  >Re-Enter Password</Typography>
                 <TextField 
+                type="password"
                  style={{
                   width: "300px",
                   borderRadius: "10px",
@@ -295,9 +262,50 @@ const AddUserModal = ({ isOpen, onClose }) => {
                 }}
                 placeholder="*******" fullWidth className="form-field-addmodal" />
               </div>
-            </div>
+
+              <div className="input-group-addmodal">
+                <Typography
+                sx={{
+                  color: "#8B8B8B",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  fontFamily:'poppins',
+                  textAlign:'left'
+                }} 
+
+                 className="input-label-addmodal"
+                 
+                 >Re-Enter Password</Typography>
+                <TextField 
+                type="password"
+                 style={{
+                  width: "300px",
+                  borderRadius: "10px",
+                 }}
+                 sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& input::placeholder': {
+                      fontSize: '16px',
+                      color: '#D4FCE5',
+                      fontFamily: 'Poppins'
+                    },
+                    borderRadius: '40px',
+                    '& fieldset': {
+                      border: 'none'
+                    }
+                  }
+                }}
+                placeholder="*******" fullWidth className="form-field-addmodal" />
+              </div>
+            </div> 
           
           </form>
+
+          
+
+
+
+
           <div className="modal-footer-addmodal">
   <Button onClick={onClose} variant="text" style={{
     color:'#fff',
@@ -308,7 +316,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
   <Button 
     // variant="contained" 
     className="save-button-addmodal"
-    
+    onClick={onClose}
     variant="text" style={{
       color:'#fff',
       fontSize:'16px',

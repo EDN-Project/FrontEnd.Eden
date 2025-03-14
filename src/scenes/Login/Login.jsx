@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {loginUser} from "../../constants/api";
+import {googleLogin, loginUser} from "../../constants/api";
 import "./Login.css";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,11 @@ const Login = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
+
+    if (userData) {
+      localStorage.setItem("userData", JSON.stringify(userData));
+      window.dispatchEvent(new Event("storage")); 
+    }
     const getUserData = async () => {
       try {
         const data = localStorage.getItem("userData");
@@ -30,20 +35,7 @@ const Login = () => {
     getUserData();
   }, []);
 
-  const handleGoogleLogin = () => {
-    console.log("Google Login Clicked");
-    // إضافة منطق تسجيل الدخول بجوجل هنا
-  };
-
-  const handleFacebookLogin = () => {
-    console.log("Facebook Login Clicked");
-    // إضافة منطق تسجيل الدخول بفيسبوك هنا
-  };
-
-  const handleChange = (e) => {
-    setFormData({...formData, [e.target.id]: e.target.value});
-  };
-
+ 
 // const handleLogin = async (e) => {
 //     e.preventDefault();
 //     setLoading(true);
@@ -74,37 +66,84 @@ const Login = () => {
   };
 
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
 
-    try {
-        const response = await loginUser(formData);
+//     try {
+//         const response = await loginUser(formData);
+//         // console.log("🔹 Login Response:--------->", response); // ✅ طباعة الاستجابة
 
-        if (response.token) {
-            localStorage.setItem("token", response.token); // تخزين التوكن
-            toast.success("Login successful! Redirecting...");
+//         if (response.token) {
+//             localStorage.setItem("token", response?.token); // تخزين التوكن
+//             toast.success("Login successful! Redirecting...");
 
-            // 🔹 جلب بيانات المستخدم بعد تسجيل الدخول
-            const userData = await getUserData();
-            if (userData) {
-                localStorage.setItem("userData", JSON.stringify(userData));
+//             console.log("Token After Login------>:", response?.token);
 
-                console.log("User Data After Login:", userData); // ✅ طباعة البيانات هنا
+//             // 🔹 جلب بيانات المستخدم بعد تسجيل الدخول
+//             const userData = await getUserData();
+//             if (userData) {
+//                 localStorage.setItem("userData", JSON.stringify(userData));
 
-            }
+//                 console.log("User Data After Login:", userData); // ✅ طباعة البيانات هنا
 
-            setTimeout(() => {
-                navigate("/");
-            }, 1500);
-        } else {
-            toast.error(`${response.error || "Login failed! Try again."}`);
-        }
-    } catch (error) {
-        toast.error("Error connecting to server.");
-    } finally {
-        setLoading(false);
+//             }
+
+//             setTimeout(() => {
+//                 navigate("/");
+//             }, 1500);
+//         } else {
+//             toast.error(`${response.error || "Login failed! Try again."}`);
+//         }
+//     } catch (error) {
+//         toast.error("Error connecting to server.");
+//     } finally {
+//         setLoading(false);
+//     }
+// };
+
+
+useEffect(() => {
+  const storedData = localStorage.getItem("userData");
+  if (storedData) {
+    setUserData(JSON.parse(storedData));
+  }
+}, []);
+
+const handleChange = (e) => {
+  setFormData({ ...formData, [e.target.id]: e.target.value });
+};
+
+
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const response = await loginUser(formData.email, formData.password);
+
+    if (response.success) {
+      localStorage.setItem("authToken", response.token);
+      toast.success("Login successful! Fetching user data...");
+
+      // 🔹 جلب بيانات المستخدم بعد تسجيل الدخول
+      const userDataResponse = await getUserData();
+      if (userDataResponse) {
+        localStorage.setItem("userData", JSON.stringify(userDataResponse));
+        setUserData(userDataResponse);
+      }
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } else {
+      toast.error(response.error || "Login failed! Try again.");
     }
+  } catch (error) {
+    toast.error("Error connecting to server.");
+  } finally {
+    setLoading(false);
+  }
 };
 
 
@@ -181,14 +220,14 @@ const Login = () => {
             </div>
 
             <div className='social-buttons'>
-              <button className='social-btn google' onClick={handleGoogleLogin}>
+              <button className='social-btn google' onClick={googleLogin}>
                 <img draggable='false' src={images.gmail} alt='Google' />
                 Sign in with Google
               </button>
 
               <button
                 className='social-btn facebook'
-                onClick={handleFacebookLogin}
+                onClick={{}}
               >
                 <img draggable='false' src={images.appel} alt='iphone' />
                 Sign in with Apple

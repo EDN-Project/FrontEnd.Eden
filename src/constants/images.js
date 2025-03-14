@@ -50,6 +50,10 @@ const images = {
     addNewuser: require("../assets/icons/addNewuser.png"), // addNewuser
     passwordIcon: require("../assets/icons/passwordIcon.png"), // passwordIcon
     Suport: require("../assets/icons/Suport.png"), // Suport
+    Union: require("../assets/images/Union.png"), // Union
+    usericon3: require("../assets/icons/usericon3.png"), // usericon3
+    mail_icon: require("../assets/icons/mail_icon.png"), // mail_icon
+    call_back: require("../assets/icons/call_back.png"), // call_back_icon
 
     
   

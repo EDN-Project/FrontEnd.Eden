@@ -6,6 +6,7 @@ import images from "../../constants/images";
 import ContantUsFooter from "../../components/Navbar/ContantUsFooter/ContantUsFooter";
 import {Link, useNavigate} from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
+import { updateUserPackage } from "../../constants/api";
 
 const pricingPlans = [
   {
@@ -88,6 +89,58 @@ const handleCheckout = async () => {
 };
 
 
+// const handleCheckout = async (plan) => {
+//   if (!user) {
+//     console.error("User not found!");
+//     alert("User not found! Please log in first.");
+//     return;
+//   }
+
+//   const authToken = localStorage.getItem("authToken"); 
+//   if (!authToken) {
+//     console.error("Auth token is missing!");
+//     alert("Authentication failed! Please log in again.");
+//     return;
+//   }
+
+//   const packageData = {
+//     package: plan.title,
+//     price: isAnnual ? plan.priceAnnual.toString() : plan.priceMonthly.toString(),
+//   };
+
+//   console.log("🔷 Data sent to backend:", packageData); // ✅ طباعة البيانات المُرسلة للباك
+
+//   try {
+//     setLoading(true);
+    
+//     const response = await updateUserPackage(packageData.package, packageData.price, authToken);
+    
+//     console.log("🔹 API Response:", response); // ✅ طباعة الاستجابة من الباك‌اند
+
+//     if (response.success) {
+//       // تحديث بيانات المستخدم في LocalStorage
+//       const updatedUser = { ...user, selectedPackage: packageData };
+//       localStorage.setItem("userData", JSON.stringify(updatedUser));
+//       setUser(updatedUser);
+
+//       alert("✅ Payment successful! Your package has been updated.");
+//     } else {
+//       alert(`❌ Payment failed: ${response.error}`);
+//     }
+    
+//   } catch (error) {
+//     console.error("❌ Error updating package:", error);
+//     alert("❌ Something went wrong. Please try again.");
+//   } finally {
+//     setLoading(false);
+//   }
+
+//   // تحويل المستخدم إلى صفحة الدفع
+//   window.location.href = "https://buy.stripe.com/test_7sI29IfOYfSI1dC144";
+// };
+
+
+
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
@@ -139,7 +192,7 @@ const handleCheckout = async () => {
                 <h4 className="discount-text">Instead of ${plan.priceMonthly * 12}</h4>
               )}
 
-              <button className="get-started-btn" onClick={handleCheckout} disabled={loading} > 
+              <button className="get-started-btn" onClick={() => handleCheckout()} disabled={loading} > 
           {loading ? "Processing..." : "Get Started"}
         </button>
               <ul>

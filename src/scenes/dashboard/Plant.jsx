@@ -4,14 +4,6 @@ import { useState, useEffect } from "react";
 import { Box, Typography, useTheme, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
-import BarChartTypes from "../../components/BarChartTypes";
-import CustomBarChart from "../../components/CustomBarChart";
 import Sidebar from "../global/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
@@ -47,6 +39,10 @@ const Plant = () => {
 
     const [chartData, setChartData] = useState([]);
 
+
+
+const [month, setMonth] = useState(null);
+
     useEffect(() => {
         // console.log("Extracted countries:--.", countries);
 // console.log("Chart Data:", chartData);
@@ -56,53 +52,71 @@ const Plant = () => {
 
 
     useEffect(() => {
-        setLoading(true);
-        if (!selectedDate) return; 
+        if (!selectedDate || !selectedCode) {
+            setLoading(false);
+            return;
+        }
     
         const fetchData = async () => {
             setLoading(true);
             try {
                 const response = await getTopImporters(selectedDate, selectedCode);
-                console.log("Received data:", response);
+                console.log("Received data Top Importers:", response);
     
-                if (!response || !response.top_importers || !response.countries) {
-                    console.warn("⚠️ No data received from API");
+                if (!response || !Array.isArray(response.top_importers) || !Array.isArray(response.countries)) {
+                    console.warn("No valid data received from API");
                     setImportersData([]);
-                    setCountries([]); 
-                    setLoading(false);
+                    setCountries([]);
+                    setMonth(null);
                 } else {
                     setCountries(response.countries);
-    
-                    const transformedData = response.top_importers.reduce((acc, item) => {
-                        const { year, Importers, quantity } = item;
-    
-                        if (!acc[year]) {
-                            acc[year] = { year };
-                        }
-    
-                        acc[year][Importers] = quantity;
-                        return acc;
-                    }, {});
-    
-                    setImportersData(Object.values(transformedData));
+                    setMonth(response.month);
+                    setImportersData(
+                        response.top_importers.map((item) => ({
+                            year: item.year,
+                            ...item,
+                        }))
+                    );
                 }
             } catch (error) {
                 console.error("Error fetching top importers:", error);
                 setImportersData([]);
                 setCountries([]);
+                setMonth(null);
+            } finally {
                 setLoading(false);
             }
-            setLoading(false); 
         };
-
-
     
         fetchData();
     }, [selectedDate, selectedCode]);
     
-    
     const [typecode, setTypecode] = useState("");
     const [countryData, setCountryData] = useState(null); 
+    
+    useEffect(() => {
+        const typecode = sessionStorage.getItem("typecode");
+        const savedCrop = sessionStorage.getItem("selectedCode");
+        const savedDate = sessionStorage.getItem("selectedDate");
+        // const savedCountry = sessionStorage.getItem("selectedCountry");
+        const savedLocation = sessionStorage.getItem("selectedLocation");
+
+        if (savedCrop) setSelectedCode(savedCrop);
+        if (typecode) setSelectedCode(typecode);
+        if (savedDate) setSelectedDate(new Date(savedDate));
+        // if (savedCountry) setSelectedCountry(savedCountry);
+        if (savedLocation) setSelectedLocation(savedLocation);
+    }, []);
+
+    useEffect(() => {
+        if(typecode)  sessionStorage.setItem("typecode", typecode);
+        if (selectedCode) sessionStorage.setItem("selectedCode", selectedCode);
+        if (selectedDate) sessionStorage.setItem("selectedDate", selectedDate.toISOString());
+        if (selectedCountry) sessionStorage.setItem("selectedCountry", selectedCountry);
+        if (selectedLocation) sessionStorage.setItem("selectedLocation", selectedLocation);
+    }, [selectedCode, selectedDate, selectedCountry, selectedLocation]);
+
+ 
 
     const handleCountryChange = async (e) => {
         const newCountry = e.target.value;
@@ -129,56 +143,31 @@ const Plant = () => {
 
 
     useEffect(() => {
-        if (!selectedCountry) return;
-    
-        const fetchRecommendedMonth = async () => {
-            const data = await getRecommendedMonth(selectedCountry);
-            if (data) {
-                console.log("📌 Recommended Month Data:", data);
-    
-                const formattedData = [
-                    { month: "Current Month", value: data?.sum_current_month },
-                    { month: "Next Month", value: data?.sum_next_month },
-                    { month: "After Next Month", value: data?.sum_after_next_months }
-                ];
-    
-                setDataDiffInPrices(formattedData);
-            }
-        };
+    if (!selectedCountry) return;
 
-        console.log("DataDiffInPrices:", DataDiffInPrices);
-    
-        fetchRecommendedMonth();
-    }, [selectedCountry]);
+    const fetchRecommendedMonth = async () => {
+        try {
+            const data = await getRecommendedMonth(selectedCountry, month, selectedCode);
+            if (data) {
+                // console.log("📌 Recommended Month Data:", data);
+
+                setDataDiffInPrices([
+                    { month: "Current Month", value: data.sum_current_month || 0 },
+                    { month: "Next Month", value: data.sum_next_month || 0 },
+                    { month: "After Next Month", value: data.sum_after_next_months || 0 },
+                ]);
+            }
+        } catch (error) {
+            console.error("Error fetching recommended month:", error);
+        }
+    };
+
+    fetchRecommendedMonth();
+}, [selectedCountry, month, typecode]);
+
     
     
     const [DataDiffInPrices, setDataDiffInPrices] = useState([]);
-
-
-
-    useEffect(() => {
-        const typecode = sessionStorage.getItem("typecode");
-        const savedCrop = sessionStorage.getItem("selectedCode");
-        const savedDate = sessionStorage.getItem("selectedDate");
-        // const savedCountry = sessionStorage.getItem("selectedCountry");
-        const savedLocation = sessionStorage.getItem("selectedLocation");
-
-        if (savedCrop) setSelectedCode(savedCrop);
-        if (typecode) setSelectedCode(typecode);
-        if (savedDate) setSelectedDate(new Date(savedDate));
-        // if (savedCountry) setSelectedCountry(savedCountry);
-        if (savedLocation) setSelectedLocation(savedLocation);
-    }, []);
-
-    useEffect(() => {
-        if(typecode)  sessionStorage.setItem("typecode", typecode);
-        if (selectedCode) sessionStorage.setItem("selectedCode", selectedCode);
-        if (selectedDate) sessionStorage.setItem("selectedDate", selectedDate.toISOString());
-        // if (selectedCountry) sessionStorage.setItem("selectedCountry", selectedCountry);
-        if (selectedLocation) sessionStorage.setItem("selectedLocation", selectedLocation);
-    }, [selectedCode, selectedDate, selectedCountry, selectedLocation]);
-
-
 
 
     return (

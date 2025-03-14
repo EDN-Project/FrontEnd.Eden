@@ -59,23 +59,24 @@ const Calendar = () => {
             <Topbar />
     <div className="calendarContainer">
     <Box m="20px">
-      <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+      <Header title="Calendar" subtitle="" />
+      <Typography sx={{ m: "0 0 10px 0" }} align='left' variant="h4" color={'#FFFF'}> Full Calendar Interactive Page</Typography>
 
       <Box display="flex" justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
         <Box
           flex="1 1 20%"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={'#717171'}
           p="15px"
           borderRadius="4px"
         >
-          <Typography variant="h5">Events</Typography>
+          <Typography align="left" color={'#fff'} variant="h5">Events</Typography>
           <List>
             {currentEvents.map((event) => (
               <ListItem
                 key={event.id}
                 sx={{
-                  backgroundColor: colors.greenAccent[500],
+                  backgroundColor: '#EAFDF2',
                   margin: "10px 0",
                   borderRadius: "2px",
                 }}
@@ -98,42 +99,49 @@ const Calendar = () => {
         </Box>
 
         {/* CALENDAR */}
-        <Box flex="1 1 100%" ml="15px">
-          <FullCalendar
-            height="75vh"
-            plugins={[
-              dayGridPlugin,
-              timeGridPlugin,
-              interactionPlugin,
-              listPlugin,
-            ]}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-            }}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            select={handleDateClick}
-            eventClick={handleEventClick}
-            eventsSet={(events) => setCurrentEvents(events)}
-            initialEvents={[
-              {
-                id: "12315",
-                title: "All-day event",
-                date: "2022-09-14",
-              },
-              {
-                id: "5123",
-                title: "Timed event",
-                date: "2022-09-28",
-              },
-            ]}
-          />
-        </Box>
+        <Box
+  bgcolor={'#141b2d'}
+  flex="1 1 100%"
+  ml="15px"
+  sx={{
+    "& .fc .fc-toolbar-title": { color: "white !important" }, // لون الشهر والسنة
+    "& .fc .fc-button": { 
+      // backgroundColor: "black !important", 
+      color: "white !important", 
+      border: "none !important" 
+    }, 
+    "& .fc-daygrid-day-number": { color: "white !important" }, // لون أرقام الأيام
+  }}
+>
+  <FullCalendar
+    height="75vh"
+    plugins={[
+      dayGridPlugin,
+      timeGridPlugin,
+      interactionPlugin,
+      listPlugin,
+    ]}
+    themeSystem="bootstrap"
+    headerToolbar={{
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+    }}
+    initialView="dayGridMonth"
+    editable={true}
+    selectable={true}
+    selectMirror={true}
+    dayMaxEvents={true}
+    select={handleDateClick}
+    eventClick={handleEventClick}
+    eventsSet={(events) => setCurrentEvents(events)}
+    initialEvents={[
+      { id: "12315", title: "All-day event", date: "2022-09-14" },
+      { id: "5123", title: "Timed event", date: "2022-09-28" },
+    ]}
+  />
+</Box>
+
       </Box>
     </Box>
     </div>

@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser, confirmRegistration } from '../../constants/api';
+import { registerUser, confirmRegistration ,googleLogin,handleGoogleCallback} from '../../constants/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './SignUp.css';
 import images from '../../constants/images';
 
 const SignUp = () => {
+
+ 
+
   const [activeTab, setActiveTab] = useState('individual');
   const [companyField, setCompanyField] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,7 +19,7 @@ const SignUp = () => {
     phone: '',
     password: '',
     company_name: '',
-
+    
   });
   const [code, setCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -76,15 +79,27 @@ const SignUp = () => {
 
 
   const handleGoogleLogin = () => {
-    console.log("Google Login Clicked");
-    // إضافة منطق تسجيل الدخول بجوجل هنا
+   googleLogin();
   };
 
-  const handleFacebookLogin = () => {
-    console.log("Facebook Login Clicked");
-    // إضافة منطق تسجيل الدخول بفيسبوك هنا
-  };
   
+
+  useEffect(() => {
+    const handleGoogleAuth = async () => {
+        if (window.location.search.includes("google_callback")) {
+            const result = await handleGoogleCallback();
+            if (result.success) {
+                toast.success("Login successful!");
+                navigate("/dashboard"); 
+            } else {
+                toast.error(result.error || "Google login failed");
+            }
+        }
+    };
+
+    handleGoogleAuth();
+}, []);
+
 
   return (
 
@@ -119,7 +134,7 @@ const SignUp = () => {
             </div>
 
             <div className="form-field-singup">
-            <input type="text" id="company" placeholder="Enter company name" onChange={handleChange} />
+            <input type="text" id="company_name" placeholder="Enter company name" onChange={handleChange} />
 
               <label htmlFor="company">Company</label>
             </div>
@@ -149,7 +164,7 @@ const SignUp = () => {
             </div>
 
             <div className="form-field-singup">
-              <input type="ConfirmPassword" id="password" placeholder="Confirm password" onChange={handleChange} required />
+              <input type="password" id="password" placeholder="Confirm password" onChange={handleChange} required />
               <label htmlFor="password">Confirm Password</label>
             </div>
 </div>
@@ -199,7 +214,7 @@ const SignUp = () => {
           Sign in with Google
         </button>
 
-        <button className="social-btn facebook" onClick={handleFacebookLogin}>
+        <button className="social-btn facebook" onClick={{}}>
           <img src={images.appel} alt="iphone" />
           Sign in with Apple
         </button>

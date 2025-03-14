@@ -10,14 +10,44 @@ import { getUserData } from "../../constants/api";
 const Home = () => {
   const navigate = useNavigate();
 
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const storedUser = localStorage.getItem("userData");
+  
+  //     if (storedUser) {
+  //       console.log("User Loaded from LocalStorage:", storedUser);
+  //       setUser(JSON.parse(storedUser));
+  //     } else {
+  //       try {
+  //         const userData = await getUserData();
+  //         if (userData) {
+  //           localStorage.setItem("userData", JSON.stringify(userData));
+  //           setUser(userData);
+  //           console.log("User Data Fetched from API:", userData);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //       }
+  //     }
+  //   };
+  
+  //   fetchUser();
+  // }, []); 
+
+
   const [user, setUser] = useState(null);
 
+  
+  useEffect(() => {
+    console.log("User State home:", user);
+    // console.log("Updated User State:", user);
+  }, [user]); 
+  
   useEffect(() => {
     const fetchUser = async () => {
       const storedUser = localStorage.getItem("userData");
-  
       if (storedUser) {
-        console.log("User Loaded from LocalStorage:", storedUser);
         setUser(JSON.parse(storedUser));
       } else {
         try {
@@ -25,7 +55,6 @@ const Home = () => {
           if (userData) {
             localStorage.setItem("userData", JSON.stringify(userData));
             setUser(userData);
-            console.log("User Data Fetched from API:", userData);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -34,12 +63,18 @@ const Home = () => {
     };
   
     fetchUser();
-  }, []); 
   
-  useEffect(() => {
-    console.log("User State:", user);
-    // console.log("Updated User State:", user);
-  }, [user]); 
+    // 🔹 استمع إلى أي تغييرات في بيانات المستخدم المٌخزنة
+    const handleStorageChange = () => {
+      fetchUser();
+    };
+  
+    window.addEventListener("storage", handleStorageChange);
+  
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
   
 
   const handleNavigateToDashboard = () => {
