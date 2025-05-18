@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import "./PopupModal.css";
 import images from "../../constants/images";
 import {Link, useNavigate} from "react-router-dom";
-import {motion} from "framer-motion";
+// import {motion} from "framer-motion";
 const PopupModal = ({
   isOpen,
   onClose,
@@ -31,7 +31,10 @@ const PopupModal = ({
   };
 
   return (
-    <motion.div className='PopUpModal-class '>
+    // <motion.div className='PopUpModal-class '>
+      
+      <div className='PopUpModal-class '>
+
       <div
         className='modal-overlay'
         onClick={(e) => {
@@ -94,7 +97,9 @@ const PopupModal = ({
           </div>
         </div>
       </div>
-    </motion.div>
+    {/* </motion.div> */}
+    </div>
+
   );
 };
 

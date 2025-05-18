@@ -13,6 +13,7 @@ import Geography from "./scenes/geography";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {ColorModeContext, useMode} from "./theme";
 import Calendar from "./scenes/calendar/calendar";
+import DashboardPage from "./scenes/DashboardPage/DashboardPage";
 import Home from "./scenes/Home/Home";
 import Login from "./scenes/Login/Login";
 import SignUp from "./scenes/SignUp/SignUp";
@@ -24,6 +25,9 @@ import Monitoring from "./scenes/services/Monitoring/Monitoring";
 import AdvacedMarketAnalysis from "./scenes/services/AdvacedMarketAnalysis/AdvacedMarketAnalysis";
 import Detectdiseases from "./scenes/services/Detectdiseases/Detectdiseases";
 import Plant from "./scenes/dashboard/Plant";
+import CropManagement from "./scenes/CropManagement/CropManagement";
+import Report from './scenes/Report/Report'
+import HealthPrediction  from "./scenes/HealthPrediction/HealthPrediction";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -89,6 +93,10 @@ function App() {
           <Route path='/line' element={<Line />} />
           <Route path='/faq' element={<FAQ />} />
           <Route path='/calendar' element={<Calendar />} />
+          <Route path='/DashboardPage' element={<DashboardPage />} />
+          <Route path='/CropManagement' element={<CropManagement />} />
+          <Route path='/Report' element={<Report />} />
+          <Route path='/HealthPrediction' element={<HealthPrediction />} />
           <Route path='/geography' element={<Geography />} />
           <Route path='/Plant' element={<Plant />} />
 

@@ -79,7 +79,7 @@ const Home = () => {
 
   const handleNavigateToDashboard = () => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/DashboardPage");
     } else {
       navigate("/signup");
     }

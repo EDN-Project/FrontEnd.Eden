@@ -1,35 +1,90 @@
 import { useState ,useEffect} from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import {Button, Box, IconButton, Typography, useTheme, Divider, Menu as MuiMenu, MenuItem as MuiMenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import images from "../../constants/images";
-// import userImage from "../../assets/user.png"; // ✅ استيراد صورة المستخدم بطريقة صحيحة
 import { logoutUser } from "../../constants/api";
 import UserProfileModal from "../../components/DashBoardComp/UserProfileModal";
 const Item = ({ title, to, imgSrc, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  // The color we want to use for both selected and hover states
+  const highlightColor = "#CEFBE2";
+  
+  // Check if this item is currently selected
+  const isSelected = selected === title;
+
+  // Handle click on menu item
+  const handleClick = () => {
+    setSelected(title);
+    if (onClick) onClick();
+  };
 
   return (
     <MenuItem
-      active={selected === title}
-      style={{ color: colors.grey[100], marginBottom: 10, transition: "color 0.3s ease" }}
-      onClick={() => {
-        setSelected(title);
-        if (onClick) onClick(); 
+      active={isSelected}
+      style={{ 
+        color: isSelected ? highlightColor : colors.grey[100], 
+        marginBottom: 10, 
+        transition: "color 0.3s ease" 
       }}
-      icon={<img src={imgSrc} alt={title} style={{ width: 25, height: 25, transition: "filter 0.3s ease" }} />}
+      onClick={handleClick}
+      icon={
+        <div style={{ 
+          width: 25, 
+          height: 25, 
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <img 
+            src={imgSrc} 
+            alt={title} 
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              transition: "all 0.3s ease",
+              filter: isSelected ? "brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1093%) hue-rotate(76deg) brightness(103%) contrast(98%)" : "none"
+            }} 
+          />
+        </div>
+      }
+      className={`sidebar-menu-item ${isSelected ? 'selected-item' : ''}`}
     >
-      <Typography className="menu-text" style={{ color: colors.grey[100], fontSize: 18 }}>{title}</Typography>
+      <Typography 
+        className="menu-text" 
+        style={{ 
+          color: isSelected ? highlightColor : colors.grey[100], 
+          fontSize: 18 
+        }}
+      >
+        {title}
+      </Typography>
       {to && <Link to={to} />}
     </MenuItem>
   );
 };
 
+const useStyles = {
+  "@global": {
+    ".sidebar-menu-item:hover img": {
+      filter: "invert(95%) sepia(12%) saturate(1090%) hue-rotate(76deg) brightness(97%) contrast(94%) !important"
+    },
+    ".sidebar-menu-item:hover .menu-text": {
+      color: "#CEFBE2 !important"
+    },
+    ".pro-menu-item.active img": {
+      filter: "invert(95%) sepia(12%) saturate(1090%) hue-rotate(76deg) brightness(97%) contrast(94%) !important"
+    }
+  }
+};
+
 const Sidebar = ({ isSidebar }) => {
+  const classes = useStyles;
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,6 +92,21 @@ const Sidebar = ({ isSidebar }) => {
   const [selected, setSelected] = useState("Dashboard");
   const [anchorEl, setAnchorEl] = useState(false); 
   const [showUserProfile, setshowUserProfile] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    
+    // Map paths to menu titles
+    if (path.includes("/DashboardPage")) setSelected("Dashboard");
+    else if (path.includes("/CropManagement")) setSelected("Crop Management");
+    else if (path.includes("/Plant")) setSelected("Market Analysis");
+    else if (path.includes("/team")) setSelected("Manage Users");
+    else if (path.includes("/calendar")) setSelected("Calendar");
+    else if (path.includes("/HealthPrediction")) setSelected("Health Prediction");
+    else if (path.includes("/Report")) setSelected("Get Reports");
+    
+  }, [location.pathname]);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -68,6 +138,28 @@ const Sidebar = ({ isSidebar }) => {
 
   return (
     <>
+      <style>
+        {`
+          .sidebar-menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1093%) hue-rotate(76deg) brightness(103%) contrast(98%) !important;
+          }
+          .sidebar-menu-item:hover .menu-text {
+            color: #CEFBE2 !important;
+          }
+          .pro-inner-item:hover {
+            color: #CEFBE2 !important;
+          }
+          .pro-menu-item.active {
+            color: #CEFBE2 !important;
+          }
+          .pro-menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1093%) hue-rotate(76deg) brightness(103%) contrast(98%) !important;
+          }
+          .pro-menu-item.active .menu-text {
+            color: #CEFBE2 !important;
+          }
+        `}
+      </style>
     <Box
       sx={{
         "& .pro-sidebar-inner": {
@@ -119,13 +211,20 @@ const Sidebar = ({ isSidebar }) => {
           <Divider style={{ backgroundColor: "#3F3F3F", margin: "10px 20px" }} />
 
           <Box paddingLeft={isCollapsed ? "0.6%" : "5%"}>
-            <Item title="Dashboard" to="/" imgSrc={images.Dashboard} selected={selected} setSelected={setSelected} />
+            
+          <Item title="Dashboard" to="/DashboardPage" imgSrc={images.Dashboard} selected={selected} setSelected={setSelected} />
+          <Item title="Crop Management" to="/CropManagement" imgSrc={images.plantt} selected={selected} setSelected={setSelected} />
+
             <Item title="Market Analysis" to="/Plant" imgSrc={images.Market_Analysis} selected={selected} setSelected={setSelected} />
             <Item title="Manage Users" to="/team" imgSrc={images.Manage_Users} selected={selected} setSelected={setSelected} />
            
             <Item title="Calendar" to="/calendar" imgSrc={images.Calendar} selected={selected} setSelected={setSelected} />
 
-            <Item title="Get Reports" to="/reports" imgSrc={images.Get_Reports} selected={selected} setSelected={setSelected} />
+            <Item title="Health Prediction" to="/HealthPrediction" imgSrc={images.artificialntelligence} selected={selected} setSelected={setSelected} />
+
+            <Item title="Get Reports" to="/Report" imgSrc={images.Get_Reports} selected={selected} setSelected={setSelected} />
+
+
 
             <Box onClick={()=>{
                            setAnchorEl(!anchorEl)

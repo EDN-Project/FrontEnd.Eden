@@ -28,6 +28,15 @@ const images = {
     AdvacedMarketAnalysisCardPop2 : require("../assets/images/AdvacedMarketAnalysisCardPop2.png"),
     AdvacedMarketAnalysisCardPop3 : require("../assets/images/AdvacedMarketAnalysisCardPop3.png"),
     paymentbackground : require("../assets/images/paymentbackground.png"),
+    StrawberryInsights : require("../assets/images/StrawberryInsights.png"),
+
+    plantt : require("../assets/icons/plantt.png"),
+    artificialntelligence : require("../assets/icons/artificialntelligence.png"),
+    cameraIcon : require("../assets/icons/cameraIcon.png"),
+
+
+
+
 
     // dashboard
     Dashboard: require("../assets/icons/dashboard.png"),

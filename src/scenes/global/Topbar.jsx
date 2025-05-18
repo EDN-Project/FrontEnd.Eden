@@ -8,7 +8,7 @@ import ProfileDropdownDash from "../../components/DashBoardComp/AddUserModal/Pro
 import NotificationModal from "../../components/DashBoardComp/NotificationModal";
 import { logoutUser } from "../../constants/api";
 import SettingsModal from "../../components/DashBoardComp/SettingsModal";
-import UserProfileModal from "../../components/DashBoardComp/UserProfileModal";
+import EditUserModal from "../../components/DashBoardComp/EditProfileModal/EditProfileModal";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -18,9 +18,7 @@ const Topbar = () => {
   const [showNotify, setShowNotify] = useState(false);
   const [showSetting, setshowSetting] = useState(false);
   const [showUserProfile, setshowUserProfile] = useState(false);
-
-
-
+  const [showEditProfile, setShowEditProfile] = useState(false);
 
   const handleLogout = async () => {
     const result = await logoutUser();
@@ -30,6 +28,12 @@ const Topbar = () => {
     } else {
       alert(result.error);
     }
+  };
+
+  // Function to handle opening the edit profile modal
+  const handleEditProfile = () => {
+    setShowEditProfile(true);
+    setShowDropdown(false); // Close the dropdown when opening the modal
   };
 
   return (
@@ -78,20 +82,24 @@ const Topbar = () => {
               padding="10px"
               zIndex={9999}
             >
-              <ProfileDropdownDash logout={handleLogout} />
+              <ProfileDropdownDash logout={handleLogout} onEditProfile={handleEditProfile} />
             </Box>
           )}
         </Box>
       </Box>
 
       {showNotify && (
- <NotificationModal open={showNotify} onClose={() => setShowNotify(false)} />     
-  )}
+        <NotificationModal open={showNotify} onClose={() => setShowNotify(false)} />     
+      )}
 
-{showSetting && (
-  <SettingsModal open={showSetting} onClose={() => setshowSetting(false)} />
-  // <UserProfileModal open={showUserProfile} onClose={() => setshowUserProfile(false)} />
-  )}
+      {showSetting && (
+        <SettingsModal open={showSetting} onClose={() => setshowSetting(false)} />
+      )}
+
+      {/* Add the EditUserModal component */}
+      {showEditProfile && (
+        <EditUserModal isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} />
+      )}
     </Box>
   );
 };
