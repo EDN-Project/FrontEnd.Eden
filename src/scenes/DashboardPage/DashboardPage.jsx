@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
@@ -7,11 +7,47 @@ import Topbar from "../global/Topbar";
 import Sidebar from "../global/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
+import { getLatestReadings } from "../../constants/api";
 
 const DashboardPage = () => {
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
   const [isSidebar, setIsSidebar] = useState(true);
+  const [sensorData, setSensorData] = useState({
+    ph: 0,
+    temperature: 0,
+    humidity: 0,
+    salt: 0,
+    light: 0,
+    ec: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSensorData = async () => {
+      try {
+        setLoading(true);
+        const response = await getLatestReadings();
+        
+        // console.log("API Response:", response);
+        
+        if (response && response.status === "success" && response.data && response.data.readings) {
+          console.log("Sensor Readings:", response.data.readings);
+          setSensorData(response.data.readings);
+        } else {
+          setError("Invalid response format");
+        }
+      } catch (err) {
+        // console.error("Error fetching sensor data:", err);
+        setError("Failed to fetch sensor data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSensorData();
+  }, []);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -63,13 +99,14 @@ const DashboardPage = () => {
                       Cairo, Egypt
                     </Typography>
                     <Typography variant="h3" color="#CEFBE2" fontWeight="bold" textAlign="left">
-                      34°C
+                          {loading ? "Loading..." : sensorData.temperature ? `${sensorData.temperature} °C` : "20 °C"}
                     </Typography>
                     <Typography color="#FFFFFF" fontSize="20px" mt="25px" textAlign="left">
                       Sunny
                     </Typography>
                     <Typography fontSize="20px" color="#FFFFFF" mt="10px" textAlign="left">
-                      H: 36°C &nbsp;&nbsp; L: 22°C
+                      T: {loading ? "Loading..." : sensorData.temperature ? `${sensorData.temperature} °C` : "20 °C"} &nbsp;&nbsp; H:  {loading ? "Loading..." : sensorData.humidity ? `${sensorData.humidity}%` : "86%"}
+
                     </Typography>
                   </Box>
 
@@ -111,17 +148,17 @@ const DashboardPage = () => {
                       alignItems="flex-start"
                     >
                       <Typography variant="h2" fontWeight="bold" color="#8B8B8B" mb="10px" textAlign="left" width="100%">
-                        Wind
+                        Salts
                       </Typography>
                       <Box display="flex" alignItems="baseline" justifyContent="flex-start" width="100%">
                         <Typography variant="h2" color="#CEFBE2" fontWeight="bold">
-                          2
+                          {/* {loading ? "Loading..." : sensorData.salt ? (sensorData.salt / 225).toFixed(1) : "2"} */}
+                          {loading ? "Loading..." : sensorData.salt ? sensorData.salt  : "300"}
+
                         </Typography>
-                        <Typography color="#575757" ml="5px">m/s</Typography>
                       </Box>
                       <Typography color="#575757" fontSize="18px" fontWeight="bold" mt="15px" textAlign="left" width="100%">
-                        Make Sure There is Still Airflow
-                      </Typography>
+Ensure salts is below 450                      </Typography>
                     </Box>
 
                     {/* Humidity */}
@@ -138,7 +175,7 @@ const DashboardPage = () => {
                         Humidity
                       </Typography>
                       <Typography variant="h2" color="#CEFBE2" fontWeight="bold" textAlign="left" width="100%">
-                        86%
+                        {loading ? "Loading..." : sensorData.humidity ? `${sensorData.humidity}%` : "86%"}
                       </Typography>
                       <Typography color="#575757" fontSize="18px" fontWeight="bold" mt="15px" textAlign="left" width="100%">
                         Ensure Moisture is sufficient to prevent disease
@@ -159,7 +196,7 @@ const DashboardPage = () => {
                         EC
                       </Typography>
                       <Typography variant="h2" color="#CEFBE2" fontWeight="bold" textAlign="left" width="100%">
-                        0.8 → 1.2
+                        {loading ? "Loading..." : sensorData.ec ? sensorData.ec : "0.8 → 1.2"}
                       </Typography>
                       <Typography color="#575757" fontSize="18px" fontWeight="bold" mt="15px" textAlign="left" width="100%">
                         Maintain Electrical Conductivity
@@ -180,7 +217,7 @@ const DashboardPage = () => {
                         pH Level
                       </Typography>
                       <Typography variant="h2" color="#CEFBE2" fontWeight="bold" textAlign="left" width="100%">
-                        5.5
+                        {loading ? "Loading..." : sensorData.ph ? sensorData.ph : "5.5"}
                       </Typography>
                       <Typography color="#575757" fontSize="18px" fontWeight="bold" mt="15px" textAlign="left" width="100%">
                         Add Acidic Compost to balance the pH
@@ -201,7 +238,7 @@ const DashboardPage = () => {
                         Temperature
                       </Typography>
                       <Typography variant="h2" color="#CEFBE2" fontWeight="bold" textAlign="left" width="100%">
-                        20 °C 
+                        {loading ? "Loading..." : sensorData.temperature ? `${sensorData.temperature} °C` : "20 °C"}
                       </Typography>
                       <Typography color="#575757" fontSize="18px" fontWeight="bold" mt="15px" textAlign="left" width="100%">
                         Stay Consistent between 17°C and 22°C
@@ -292,7 +329,7 @@ const DashboardPage = () => {
                       Light intensity
                     </Typography>
                     <Typography variant="h3"  color="#CEFBE2" fontWeight="bold" textAlign="left" width="100%">
-                      12
+                      {loading ? "Loading..." : sensorData.light ? Math.round(sensorData.light / 341) : "12"}
                     </Typography>
                     <Typography  variant="h4" fontWeight="bold"  color="#575757" mt="15px" textAlign="left" width="100%">
                       Ensure your plants have enough light

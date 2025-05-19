@@ -18,9 +18,6 @@ export const confirmRegistration = async (email, code) => {
     return response.json();
 };
 
-
-
-
 export const loginUser = async (email, password) => {
     try {
         const response = await fetch(`${API_URL}/login`, {
@@ -30,11 +27,9 @@ export const loginUser = async (email, password) => {
         });
 
         const data = await response.json();
-        // console.log("🔹 Login Response:", data);
 
         if (data.token) {
             localStorage.setItem("authToken", data.token); 
-            // console.log("Token After Login:", data.token);
             return { success: true, token: data.token };
         } else {
             return { success: false, error: data.error || "Login failed" };
@@ -45,51 +40,43 @@ export const loginUser = async (email, password) => {
     }
 };
 
-// 
-
-
-
-// export const googleLogin = () => {
-//     window.location.href = `${API_URL}/auth/google`;
-// };
-
-// export const handleGoogleCallback = async () => {
-//     try {
-//         const response = await fetch(`${API_URL}/auth/google/callback`, {
-//             method: "GET",
-//             credentials: "include"
-//         });
-
-//         const data = await response.json();
-//         if (data.name && data.email) {
-//             localStorage.setItem("authToken", data.token);
-//             localStorage.setItem("userData", JSON.stringify(data));
-//             window.dispatchEvent(new Event("storage"));
-//             return { success: true, user: data };
-//         } else {
-//             return { success: false, error: data.error || "Google login failed" };
-//         }
-//     } catch (error) {
-//         console.error("Google OAuth Error:", error);
-//         return { success: false, error: "Error connecting to Google OAuth" };
-//     }
-// };
-
 export const googleLogin = () => {
+    // Use replace to avoid adding to browser history stack
     window.location.replace(`${API_URL}/auth/google`);
 };
 
 export const handleGoogleCallback = async () => {
     try {
-        const response = await fetch(`${API_URL}/auth/google/callback`, {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        
+        if (!code) {
+            throw new Error("No authorization code received from Google");
+        }
+        
+        // Send the code to your backend to complete the OAuth flow
+        const response = await fetch(`${API_URL}/auth/google/callback?code=${code}&state=${state}`, {
             method: "GET",
             credentials: "include"
         });
 
         const data = await response.json();
-        if (data.name && data.email) {
-            localStorage.setItem("authToken", data.token);  // تأكد من أن التوكن يُخزّن
-            localStorage.setItem("userData", JSON.stringify(data));
+        
+        // Check for both user data and token in the response
+        if (data.email) {
+            if (data.token) {
+                localStorage.setItem("authToken", data.token);
+            } else {
+                console.warn("No token received from Google OAuth callback");
+            }
+            
+            localStorage.setItem("userData", JSON.stringify({
+                name: data.name,
+                email: data.email,
+                picture: data.picture
+            }));
+            
             window.dispatchEvent(new Event("storage"));
             return { success: true, user: data };
         } else {
@@ -101,34 +88,51 @@ export const handleGoogleCallback = async () => {
     }
 };
 
-
-export const logoutUser = async () => {
+export const checkTokenValidity = async () => {
+    const authToken = localStorage.getItem("authToken");
+    
+    if (!authToken) {
+        return { valid: false, error: "No token found" };
+    }
+    
     try {
-        const response = await fetch(`${API_URL}/logout`, {
+        const response = await fetch(`${API_URL}/check_token`, {
             method: "GET",
-            headers: { "Authorization": `Bearer ${localStorage.getItem("authToken")}` }
+            headers: { "Authorization": authToken }
         });
-
+        
         const data = await response.json();
+        
         if (response.ok) {
+            return { valid: true };
+        } else {
+            // Token invalid or expired
             localStorage.removeItem("authToken");
             localStorage.removeItem("userData");
-            window.dispatchEvent(new Event("storage")); 
-            
-            return { success: true, message: data.message };
-        } else {
-            return { success: false, error: data.error || "Logout failed" };
+            window.dispatchEvent(new Event("storage"));
+            return { valid: false, error: data.error || "Invalid token" };
         }
     } catch (error) {
-        console.error("🔴 Logout Error:", error);
-        return { success: false, error: "Error connecting to server" };
+        console.error("Token validation error:", error);
+        return { valid: false, error: "Error validating token" };
     }
 };
 
+export const logoutUser = () => {
+    try {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userData");
+        window.dispatchEvent(new Event("storage")); 
+        
+        return { success: true, message: "User logged out successfully" };
+    } catch (error) {
+        console.error("Logout Error:", error);
+        return { success: false, error: "Error during logout" };
+    }
+};
 
 export const getUserData = async () => {
     const authToken = localStorage.getItem("authToken");
-    console.log("authToken getUserData:", authToken);
 
     if (!authToken) {
         console.warn("No authToken found. User is not logged in.");
@@ -141,18 +145,24 @@ export const getUserData = async () => {
             headers: { "Authorization": authToken }
         });
 
-        if (!response.ok) throw new Error("Failed to fetch user data");
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Token expired or invalid
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("userData");
+                window.dispatchEvent(new Event("storage"));
+                throw new Error("Session expired. Please login again.");
+            }
+            throw new Error("Failed to fetch user data");
+        }
 
         const data = await response.json();
-        console.log("User Data Fetched:", data); 
-
         return data;
     } catch (error) {
         console.error("Error fetching user data:", error);
         return null;
     }
 };
-
 
 export const forgotPassword = async (email) => {
     const response = await fetch(`${API_URL}/forgot-password`, {
@@ -172,16 +182,12 @@ export const resetPassword = async (email, code, newPassword) => {
         });
 
         const data = await response.json();
-        console.log("🔹 Reset Password Response:", data);
-
         return data;
     } catch (error) {
         console.error("Reset Password Error:", error);
         return { error: "Something went wrong!" };
     }
 };
-
-
 
 // pricing
 
@@ -234,7 +240,7 @@ export const getTopImporters = async (plant_time, code) => {
         }
 
         const data = await response.json();
-        console.log("🟢 Top Importers Data:", data);
+        console.log(" Top Importers Data:", data);
         return data;
     } catch (error) {
         console.error(" API Fetch Error:", error);
@@ -261,10 +267,10 @@ export const sendCountry = async (country) => {
         }
 
         const data = await response.json();
-        console.log("🟢 Country Sent Successfully:", data);
+        console.log("Country Sent Successfully:", data);
         return data;
     } catch (error) {
-        console.error("🔴 Error Sending Country:", error);
+        console.error(" Error Sending Country:", error);
         return null;
     }
 };
@@ -275,11 +281,11 @@ export const sendCountry = async (country) => {
 export const getRecommendedMonth = async (country, month, code) => {
     try {
         if (!country || !month || !code) {
-            console.warn("⚠️ Missing required parameters:", { country, month, code });
+            console.warn(" Missing required parameters:", { country, month, code });
             return null;
         }
 
-        console.log("📤 Sending request to API with:", { country, month, code });
+        console.log(" Sending request to API with:", { country, month, code });
 
         const response = await fetch(`${API_URL}/recommended_month`, {
             method: "POST",
@@ -289,21 +295,21 @@ export const getRecommendedMonth = async (country, month, code) => {
             body: JSON.stringify({ country, month, code }), 
         });
 
-        // console.log("📥 API Response Status:", response.status);
+        // console.log(" API Response Status:", response.status);
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const responseText = await response.text();
-        // console.log("📜 Raw API Response:", responseText);
+        // console.log(" Raw API Response:", responseText);
 
         const data = JSON.parse(responseText);
-        // console.log("🟢 Parsed JSON Data:", data);
+        // console.log(" Parsed JSON Data:", data);
 
         return data;
     } catch (error) {
-        console.error("🔴 Error fetching recommended month:", error.message);
+        console.error(" Error fetching recommended month:", error.message);
         console.error("Stack Trace:", error.stack);
         return null;
     }
@@ -330,15 +336,15 @@ export const getCountryPrice = async (code, country) => {
         });
 
         if (!response.ok) {
-            const errorText = await response.text(); // قراءة محتوى الخطأ من الخادم
+            const errorText = await response.text(); 
             throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
         }
 
         const data = await response.json();
-        console.log("🟢 Response Data:", data);
+        console.log("Response Data:", data);
         return data;
     } catch (error) {
-        console.error("🔴 Error fetching country price:", error);
+        console.error("Error fetching country price:", error);
         return null;
     }
 };
@@ -417,5 +423,218 @@ export const getCountryGrowthQuantity = async (code, country) => {
     } catch (error) {
         console.error("🔴 Error fetching country growth quantity:", error);
         return null;
+    }
+};
+
+
+
+// ✅ Get Latest Sensor Reading
+export const getLatestReadings = async () => {
+    try {
+        const authToken = localStorage.getItem("authToken");
+        
+        const response = await fetch(`${API_URL}/readings/latest`, {
+            method: "GET",
+            headers: { 
+                ...(authToken && { "Authorization": authToken })
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch latest readings: ${response.status}`);
+        }
+
+        // console.log('sssssssss------>',response)
+        
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching latest readings:", error);
+        throw error;
+    }
+};
+
+
+// getDailyReadings
+
+
+export const getDailyReadings = async (date) => {
+    try {
+        const response = await fetch(`${API_URL}/readings/daily`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ date }),
+        });
+
+        const data = await response.json();
+
+        // console.log('data---------------kkkkkkk',data)
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch readings" };
+        }
+    } catch (error) {
+        console.error("Get Daily Readings Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+
+// getMonthlyReadings
+
+export const getMonthlyReadings = async (month, year) => {
+    try {
+        const response = await fetch(`${API_URL}/readings/monthly`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ month, year }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch monthly readings" };
+        }
+    } catch (error) {
+        console.error("Get Monthly Readings Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+// getReadingsBetweenDates
+
+export const getReadingsBetweenDates = async (start_date, end_date) => {
+    try {
+        const response = await fetch(`${API_URL}/readings/between`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ start_date, end_date }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch readings" };
+        }
+    } catch (error) {
+        console.error("Get Readings Between Dates Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+
+
+// 
+
+export const getDailyActions = async (date) => {
+    try {
+        const response = await fetch(`${API_URL}/actions/daily`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ date }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch daily actions" };
+        }
+    } catch (error) {
+        console.error("Get Daily Actions Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+
+export const getMonthlyActions = async (month, year) => {
+    try {
+        const response = await fetch(`${API_URL}/actions/monthly`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ month, year }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch monthly actions" };
+        }
+    } catch (error) {
+        console.error("Get Monthly Actions Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+
+export const getActionsBetweenDates = async (start_date, end_date) => {
+    try {
+        const response = await fetch(`${API_URL}/actions/between`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify({ start_date, end_date }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch actions between dates" };
+        }
+    } catch (error) {
+        console.error("Get Actions Between Dates Error:", error);
+        return { success: false, error: "Error connecting to server" };
+    }
+};
+
+
+// 
+export const getStageNutrients = async () => {
+    try {
+        const response = await fetch(`${API_URL}/get_stage_nutrients`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === "success") {
+            return { success: true, data };
+        } else {
+            return { success: false, error: data.error || "Failed to fetch stage nutrients" };
+        }
+    } catch (error) {
+        console.error("Get Stage Nutrients Error:", error);
+        return { success: false, error: "Error connecting to server" };
     }
 };

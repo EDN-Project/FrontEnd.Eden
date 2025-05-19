@@ -8,6 +8,19 @@ import images from "../../../constants/images";
 // import { Typography, Box, IconButton, Modal, TextField, Button } from "@mui/material";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
+/**
+ * EditUserModal component for editing user profile details
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.isOpen - Controls the visibility of the modal
+ * @param {function} props.onClose - Callback function to close the modal
+ * 
+ * @description Renders a modal interface for editing user profile information
+ * including first name, last name, email, access level, and password change option
+ * 
+ * @returns {React.ReactElement} Rendered EditUserModal component
+ */
 const EditUserModal = ({ isOpen, onClose }) => {
   const [accessLevel, setAccessLevel] = useState("");
 
